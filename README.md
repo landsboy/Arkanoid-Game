@@ -3,13 +3,13 @@ Welcome to the Arkanoid game! This Java project brings the classic Arkanoid arca
 
 ## How to Run
 First go to your destination folder and clone the repo:
-> git clone https://github.com/landsboy/Arkanoid-Game.git
+git clone https://github.com/landsboy/Arkanoid-Game.git
 
 To start playing the game, compile all Java files:
-> javac -cp "/home/alu/netlandes/Arkanoid-Game/biuoop-1.4.jar" -d bin src/**/*.java
+javac -cp biuoop-1.4.jar -d bin src/**/*.java
 
 and then run the Arkanoid class:
-> java -cp bin Arkanoid
+java -cp bin Arkanoid
 
 You have the option to run the game with or without arguments. If no arguments are provided, the game will proceed through the default sequence of levels (1, 2, 3, 4). However, if you choose to specify arguments, you can determine the order of levels to play. For example:
 
