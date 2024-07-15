@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * That's the main class of this assignment.
- * @author Netanel Landesman 315873588
  */
 public class Ass6Game {
     /**
