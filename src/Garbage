@@ -1,0 +1,713 @@
+double maxY = Math.max(this.start.getY(), this.end.getY());
+        double minY = Math.min(this.start.getY(), this.end.getY());
+        if (this.start.getX() == this.end.getX() && this.start.getX() == point.getX()) { // infinity m
+            return (point.getY() >= minY && point.getY() <= maxY);
+        }
+
+
+
+          public static void main(String[] args) {
+               GUI gui = new GUI("OOOOhhh Yaaaa!!!", 800, 600);
+               AnimationRunner ar = new AnimationRunner(gui);
+               List<LevelInformation> listOfLevels = new ArrayList<>();
+               if (args.length == 0) {
+                   listOfLevels.add(new DirectHit());
+                   listOfLevels.add(new WideEasy());
+                   listOfLevels.add(new Green3());
+                   listOfLevels.add(new FinalFour());
+               } else {
+                   for (int i = 0; i < args.length; i++) {
+                       try {
+                           switch (Integer.parseInt(args[i])) {
+                               case 1:
+                                   listOfLevels.add(new DirectHit());
+                                   break;
+                               case 2:
+                                   listOfLevels.add(new WideEasy());
+                                   break;
+                               case 3:
+                                   listOfLevels.add(new Green3());
+                                   break;
+                               case 4:
+                                   listOfLevels.add(new FinalFour());
+                                   break;
+                               default:
+                                   break;
+                           }
+                       } catch (NumberFormatException ignored) {
+                       }
+                   }
+               }
+               GameFlow gf = new GameFlow(ar, gui.getKeyboardSensor(), gui.getDrawSurface().getWidth(),
+                       gui.getDrawSurface().getHeight());
+               gf.runLevels(listOfLevels);
+               gui.close();
+           }
+       }
+
+
+         public gamegeometry.Velocity hit(gamegeometry.Point collisionPoint, gamegeometry.Velocity currentVelocity) {
+                double regionPart = (double) this.width / 5;
+                gamegeometry.Line region1 = new gamegeometry.Line(this.paddle.getUpperLeft(),
+                        new gamegeometry.Point(this.paddle.getUpperLeft().getX() + regionPart, this.paddle.getUpperLeft().getY()));
+                gamegeometry.Line region2 = new gamegeometry.Line(region1.end(),
+                        new gamegeometry.Point(this.paddle.getUpperLeft().getX() + 2 * regionPart, this.paddle.getUpperLeft().getY()));
+                gamegeometry.Line region3 = new gamegeometry.Line(region2.end(),
+                        new gamegeometry.Point(this.paddle.getUpperLeft().getX() + 3 * regionPart, this.paddle.getUpperLeft().getY()));
+                gamegeometry.Line region4 = new gamegeometry.Line(region3.end(),
+                        new gamegeometry.Point(this.paddle.getUpperLeft().getX() + 4 * regionPart, this.paddle.getUpperLeft().getY()));
+                gamegeometry.Line region5 = new gamegeometry.Line(region4.end(),
+                        new gamegeometry.Point(this.paddle.getUpperLeft().getX() + 5 * regionPart, this.paddle.getUpperLeft().getY()));
+                if (collisionPoint.equals(this.paddle.getUpperLeft())
+                        || (collisionPoint.equals(new gamegeometry.Point(this.paddle.getUpperLeft().getX() + (double) this.width,
+                        this.paddle.getUpperLeft().getY())))) {
+                    return new gamegeometry.Velocity(-currentVelocity.getX(), -currentVelocity.getY());
+                }
+                if (this.paddle.getLeftSide().lineContainPoint(collisionPoint)
+                        || this.paddle.getRightSide().lineContainPoint(collisionPoint)) {
+                    return new gamegeometry.Velocity(-currentVelocity.getX(), currentVelocity.getY());
+                }
+                if (region1.lineContainPoint(collisionPoint)) {
+                    return gamegeometry.Velocity.fromAngleAndSpeed(300, currentVelocity.getSpeed());
+                }
+                if (region2.lineContainPoint(collisionPoint)) {
+                    return gamegeometry.Velocity.fromAngleAndSpeed(330, currentVelocity.getSpeed());
+                }
+                if (region3.lineContainPoint(collisionPoint)) {
+                    return new gamegeometry.Velocity(currentVelocity.getX(), -currentVelocity.getY());
+                }
+                if (region4.lineContainPoint(collisionPoint)) {
+                    return gamegeometry.Velocity.fromAngleAndSpeed(30, currentVelocity.getSpeed());
+                }
+                if (region5.lineContainPoint(collisionPoint)) {
+                    return gamegeometry.Velocity.fromAngleAndSpeed(60, currentVelocity.getSpeed());
+                }
+                return currentVelocity;
+            }
+
+
+               double b = this.rect.getUpperLeft().getY() + this.rect.getHeight();
+                    double c = this.rect.getUpperLeft().getX() + this.rect.getWidth();
+                    double epsilon = Math.pow(10,-5);
+                    if (Math.abs(this.rect.getUpperLeft().getY() - collisionPoint.getY()) < epsilon
+                            ||Math.abs(b - collisionPoint.getY()) < epsilon) {
+                        if (collisionPoint.getX() >= this.rect.getUpperLeft().getX() && collisionPoint.getX() <= c) {
+                            flagY = true;
+                        }
+                    }
+                    if (Math.abs(this.rect.getUpperLeft().getX() - collisionPoint.getX()) < epsilon
+                            || Math.abs(c - collisionPoint.getX()) < epsilon) {
+                        if (collisionPoint.getY() >= this.rect.getUpperLeft().getY() && collisionPoint.getY() <= b) {
+                            flagX = true;
+                        }
+                    }
+
+
+             if (this.rect.getUpSide().lineContainPoint(collisionPoint)
+                            || this.rect.getDownSide().lineContainPoint(collisionPoint)) {
+                        flagY = true;
+                    }
+                    if (this.rect.getLeftSide().lineContainPoint(collisionPoint)
+                            || this.rect.getRightSide().lineContainPoint(collisionPoint)) {
+                        flagX = true;
+                    }
+
+
+                  public gamegeometry.Velocity hit(gamegeometry.Point collisionPoint, gamegeometry.Velocity currentVelocity) {
+                        double dx = currentVelocity.getX();
+                        double dy = currentVelocity.getY();
+                        double collisionPointX = Math.round(collisionPoint.getX());
+                        double collisionPointY = Math.round(collisionPoint.getY());
+                        double bottomRightX = Math.round(this.rect.getDownSide().end().getX());
+                        double bottomRightY = Math.round(this.rect.getDownSide().end().getY());
+                        double epsilon = Math.pow(10, -12);
+                        if (Math.abs(collisionPointX - Math.round(this.rect.getUpperLeft().getX())) <= epsilon
+                                || Math.abs(collisionPointX - bottomRightX) <= epsilon) {
+                            return new gamegeometry.Velocity(-dx, dy);
+                        }
+                        if (Math.abs(collisionPointY - Math.round(this.rect.getUpperLeft().getY())) <= epsilon
+                                || Math.abs(collisionPointY - bottomRightY) <= epsilon) {
+                            return new gamegeometry.Velocity(dx, -dy);
+                        }
+                        return new gamegeometry.Velocity(dx, dy);
+                    }
+
+
+                       public gamesettings.CollisionInfo getClosestCollision(gamegeometry.Line trajectory) {
+                             if (this.collidableInTheGame.isEmpty()) {
+                                return null;
+                             }
+                             gamegeometry.Point firstCollision = null;
+                             int j = 0;
+                             while (firstCollision == null && j < this.collidableInTheGame.size()) {
+                                 firstCollision =
+                                         trajectory.closestIntersectionToStartOfLine(collidableInTheGame.get(j).getCollisionRectangle());
+                                 j++;
+                             }
+                             if (firstCollision == null) {
+                                 return null;
+                             }
+                             int collisionIndex = j - 1;
+                             double closetCollision = trajectory.start().distance(firstCollision);
+                             gamegeometry.Point closetPointCollision = firstCollision;
+                             for (int i = collisionIndex + 1; i < this.collidableInTheGame.size(); i++) {
+                                gamegeometry.Point pCollision =
+                                        trajectory.closestIntersectionToStartOfLine(collidableInTheGame.get(i).getCollisionRectangle());
+                                if (pCollision != null) {
+                                    if (trajectory.start().distance(pCollision) < closetCollision) {
+                                        closetPointCollision = pCollision;
+                                        closetCollision = trajectory.start().distance(pCollision);
+                                        collisionIndex = i;
+                                    }
+                                }
+                            }
+                            return new gamesettings.CollisionInfo(closetPointCollision, this.collidableInTheGame.get(collisionIndex));
+                        }
+
+
+ if (collisionPoint.equals(this.rect.getUpperLeft())
+                || collisionPoint.equals(this.rect.getUpperRight()) || collisionPoint.equals(this.rect.getDownRight())
+        || collisionPoint.equals(this.rect.getDownLeft())) {
+            return new gamegeometry.Velocity(-currentVelocity.getX(), -currentVelocity.getY());
+        }
+
+
+                         public gamegeometry.Velocity hit(gamegeometry.Point collisionPoint, gamegeometry.Velocity currentVelocity) {
+                                boolean flagX = false;
+                                boolean flagY = false;
+                                double collisionPointX = Math.round(collisionPoint.getX());
+                                double collisionPointY = Math.round(collisionPoint.getY());
+                                double bottomRightX = Math.round(this.rect.getDownSide().end().getX());
+                                double bottomRightY = Math.round(this.rect.getDownSide().end().getY());
+                                double epsilon = Math.pow(10, -12);
+                                if (Math.abs(collisionPointX - Math.round(this.rect.getUpperLeft().getX())) <= epsilon
+                                        || Math.abs(collisionPointX - bottomRightX) <= epsilon) {
+                                    flagX = true;
+                                }
+                                if (Math.abs(collisionPointY - Math.round(this.rect.getUpperLeft().getY())) <= epsilon
+                                        || Math.abs(collisionPointY - bottomRightY) <= epsilon) {
+                                    flagY = true;
+                                }
+
+                                if (flagX && flagY) {
+                                    return new gamegeometry.Velocity(-currentVelocity.getX(), -currentVelocity.getY());
+                                } else if (flagX) {
+                                    return new gamegeometry.Velocity(-currentVelocity.getX(), currentVelocity.getY());
+                                } else if (flagY) {
+                                    return new gamegeometry.Velocity(currentVelocity.getX(), -currentVelocity.getY());
+                                } else {
+                                    return currentVelocity;
+                                }
+                            }
+
+
+
+/**
+ * @author Gal Levy
+ * ID: 208540872
+ * Course Lecture: 89111-13
+ * Course Practice: 89111-15
+ */
+public class gamegeometry.Line {
+
+    private gamegeometry.Point start;
+    private gamegeometry.Point end;
+
+    /**
+     * Constructor.
+     * @param start is first point of the gamegeometry.Line
+     * @param end is second point of the gamegeometry.Line
+     */
+    public gamegeometry.Line(gamegeometry.Point start, gamegeometry.Point end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * Constructor.
+     * @param x1 it the X coordinate of the first point
+     * @param y1 its the Y coordinate of the first point
+     * @param x2 its the X coordinate of the second point
+     * @param y2 its the Y coordinate of the second point
+     */
+    public gamegeometry.Line(double x1, double y1, double x2, double y2) {
+        this.start = new gamegeometry.Point(x1, y1);
+        this.end = new gamegeometry.Point(x2, y2);
+    }
+
+    /**
+     * @return the length of the gamegeometry.Line
+     */
+    public double length() {
+        return this.start.distance(this.end);
+    }
+
+    /**
+     * @return the middle point of the line
+     */
+    public gamegeometry.Point middle() {
+        double a = (this.start.getX() + this.end.getX()) / 2;
+        double b = (this.start.getY() + this.end.getY()) / 2;
+        gamegeometry.Point p = new gamegeometry.Point(a, b);
+        return  p;
+    }
+
+
+    /**
+     * @return the start point of the line
+     */
+    public gamegeometry.Point start() {
+        return this.start;
+    }
+
+
+    /**
+     * @return the end point of the line
+     */
+    public gamegeometry.Point end() {
+        return this.end;
+    }
+
+    /**
+     * @param point is the intersection point which we want to check if containing.
+     * @return true if the point is belong and otherwise false.
+     */
+
+    public boolean isContainingPoint(gamegeometry.Point point) {
+        double epsilon = Math.pow(10, -10);
+        double startDistance = point.distance(this.start);
+        double endDistance = point.distance(this.end);
+        return Math.abs(this.length() - (startDistance + endDistance)) <= epsilon;
+    }
+
+
+    /**
+     * @return the slope of this line.
+     */
+    public double getSlope() {
+        if ((this.start().getX() - this.end().getX()) == 0) {
+            return Double.NaN;
+        }
+        double slope = (this.start().getY() - this.end.getY()) / (this.start().getX() - this.end().getX());
+        return slope;
+    }
+
+    /**
+     * Gets intersect point with y axis.
+     * @return the intersect point with y axis
+     */
+    public double findYCuts() {
+
+        if (Double.isNaN(this.getSlope())) {
+            return Double.NaN;
+        }
+        return this.start().getY() - (this.getSlope() * this.start().getX());
+    }
+
+    /**
+     * @return if the line is actually a point.
+     */
+    public boolean isPoint() {
+        if (this.start.equals(this.end)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+    /**
+     * @param other is the line we want to check if intersecting with this line.
+     * @return true if the lines intersected, false otherwise.
+     */
+    public boolean isIntersecting(gamegeometry.Line other) {
+
+        if (this.intersectionWith(other) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param other is the other line we want to check with this line.
+     * @return the intersection point if the lines intersect, and null otherwise.
+     */
+    public gamegeometry.Point intersectionWith(gamegeometry.Line other) {
+
+        if (other == null) { // one of the lines is null
+            return null;
+        }
+        // Both this and other have same slope
+        if (this.getSlope() == other.getSlope()) {
+            // this line starting point is equal to the start/end of the other line
+            if ((this.start.equals(other.start)
+                    && Double.min(this.end.getX(), other.end.getX()) < this.start.getX())
+                    && Double.max(this.end.getX(), other.end.getX()) > this.start.getX()
+                    || (this.start.equals(other.end)
+                    && Double.max(this.end.getX(), other.start.getX()) > this.start.getX()
+                    && Double.min(this.end.getX(), other.start.getX()) < this.start.getX())) {
+                return this.start;
+            }
+            //this line ending point is equal to the start/end of the other line
+            if ((this.end.equals(other.start)
+                    && Double.max(this.start.getX(), other.end.getX()) > this.end.getX()
+                    && Double.min(this.start.getX(), other.end.getX()) < this.end.getX())
+                    || (this.end.equals(other.end)
+                    && Double.max(this.start.getX(), other.start.getX()) > this.end.getX()
+                    && Double.min(this.start.getX(), other.start.getX()) < this.end.getX())) {
+                return this.end;
+            }
+            return null;
+        }
+
+        // no slope for both of the lines
+        if (Double.isNaN(this.getSlope()) && Double.isNaN(other.getSlope())) {
+            // this line starting point is equal to the start/end of the other line
+            if ((this.start.equals(other.start)
+                    && Double.max(this.end.getY(), other.end.getY()) >= this.start.getY()
+                    && Double.min(this.end.getY(), other.end.getY()) <= this.start.getY())
+                    || (this.start.equals(other.end)
+                    && Double.max(this.end.getY(), other.start.getY()) >= this.start.getY()
+                    && Double.min(this.end.getY(), other.start.getY()) <= this.start.getY())) {
+                return this.start;
+            }
+            //this line ending point is equal to the start/end of the other line
+            if ((this.end.equals(other.start)
+                    && Double.max(this.start.getY(), other.end.getY()) >= this.end.getY()
+                    && Double.min(this.start.getY(), other.end.getY()) <= this.end.getY())
+                    || (this.end.equals(other.end)
+                    && Double.max(this.start.getY(), other.start.getY()) >= this.end.getY()
+                    && Double.min(this.start.getY(), other.start.getY()) <= this.end.getY())) {
+                return this.end;
+            }
+
+            // this line is a point, and other is line- check if other contains this
+            if (this.isPoint()
+                    && this.start.getY() <= Double.max(other.start.getY(), other.end.getY())
+                    && this.start.getY() >= Double.min(other.start.getY(), other.end.getY())) {
+                return this.start;
+            }
+            // other line is a point, and this is line- check if this contains other
+            if (other.isPoint()
+                    && other.start.getY() <= Double.max(this.start.getY(), this.end.getY())
+                    && other.start.getY() >= Double.min(this.start.getY(), this.end.getY())) {
+                return other.start;
+            }
+            return null;
+        }
+
+        // This line has no slope but other line has slope
+        //We will check for intersection point between both of them
+
+        double totalX;
+        double totalY;
+        if (Double.isNaN(this.getSlope())) {
+            totalX = this.start.getX();
+            totalY = this.start.getX() * other.getSlope() + other.findYCuts();
+
+            // The other line has no slope but this line has slope
+        } else if (Double.isNaN(other.getSlope())) {
+            totalX = other.start.getX();
+            totalY = other.start.getX() * this.getSlope() + this.findYCuts();
+
+            //Both lines have slope
+        } else {
+            totalX = (other.findYCuts() - this.findYCuts())
+                    / (this.getSlope() - other.getSlope());
+            totalY = (this.getSlope() * totalX) + this.findYCuts();
+        }
+
+        gamegeometry.Point intersection = new gamegeometry.Point(totalX, totalY);
+        if (this.isContainingPoint(intersection) && other.isContainingPoint(intersection)) {
+            return intersection;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param rect is the rectangle.
+     * @return return the closest intersection to the trajectory start of line.
+     */
+    public gamegeometry.Point closestIntersectionToStartOfLine(gamegeometry.Rectangle rect) {
+
+        double minLength = Double.MAX_VALUE;
+        gamegeometry.Point minPoint = null;
+        java.util.List<gamegeometry.Point> listOfIntersection = rect.intersectionPoints(this);
+        int indexOfList = 0;
+        while (indexOfList < listOfIntersection.size()) {
+            gamegeometry.Point pTemp = listOfIntersection.get(indexOfList);
+            if (this.start.distance(pTemp) < minLength) {
+                minLength = this.start.distance(pTemp);
+                minPoint = pTemp;
+            }
+            indexOfList++;
+        }
+
+        return minPoint;
+    }
+
+
+
+}
+
+
+
+
+
+
+
+import java.util.List;
+/**
+ * This class making a line.
+ */
+public class gamegeometry.Line {
+    private static final double EPSILOM = 0.0001;
+    private gamegeometry.Point start;
+    private gamegeometry.Point end;
+
+    /**
+     * constructor that get two points from the user.
+     *
+     * @param start the first point of the line.
+     * @param end   the second point of the line.
+     */
+    public gamegeometry.Line(gamegeometry.Point start, gamegeometry.Point end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * constructor from four coordinates.
+     *
+     * @param x1 the x value of the first point of the line.
+     * @param y1 the y value of the first point of the line.
+     * @param x2 the x value of the second point of the line.
+     * @param y2 the y value of the second point of the line.
+     */
+    public gamegeometry.Line(double x1, double y1, double x2, double y2) {
+        this.start = new gamegeometry.Point(x1, y1);
+        this.end = new gamegeometry.Point(x2, y2);
+    }
+
+    /**
+     * this method measures the length of this line.
+     *
+     * @return the length of this line.
+     */
+    public double length() {
+        return this.start.distance(this.end);
+    }
+
+    /**
+     * this method calculates the middle point of this line.
+     *
+     * @return the middle point of this line.
+     */
+    public gamegeometry.Point middle() {
+        return new gamegeometry.Point((this.start.getX() + this.end.getX()) / 2, (this.start.getY() + this.end.getY()) / 2);
+    }
+
+    /**
+     * this method returns the start point of the line.
+     *
+     * @return the start point
+     */
+    public gamegeometry.Point start() {
+        return this.start;
+    }
+
+    /**
+     * this method returns the end point of the line.
+     *
+     * @return the end point
+     */
+    public gamegeometry.Point end() {
+        return this.end;
+    }
+
+    /**
+     * this method checks if line contain a given point.
+     *
+     * @param point - the point to check.
+     * @return true if this point is in the line, false otherwise.
+     */
+    public boolean lineContainPoint(gamegeometry.Point point) {
+        if (point == null) {
+            return false;
+        }
+        double maxY = Math.max(this.start.getY(), this.end.getY());
+        double minY = Math.min(this.start.getY(), this.end.getY());
+        double epsilon = Math.pow(10,-5);
+        if (Math.abs(this.start.getX() - this.end.getX()) < epsilon && Math.abs(this.start.getX() - point.getX()) < epsilon) { // infinity m
+            return (point.getY() >= minY  && point.getY() <= maxY);
+        }
+        //else if the doesn't have infinity m:
+        double mLineA = (this.start.getY() - this.end.getY()) / (this.start.getX() - this.end.getX());
+        double bLineA = this.start.getY() - (mLineA * this.start.getX());
+        double maxX = Math.max(this.start.getX(), this.end.getX());
+        double minX = Math.min(this.start.getX(), this.end.getX());
+        return (point.getY() == (mLineA * point.getX()) + bLineA)
+                && (point.getX() >= minX && point.getX() <= maxX && point.getY() >= minY && point.getY() <= maxY);
+    }
+
+    /**
+     * this method checks if this line Intersecting with another line.
+     *
+     * @param other - the another line to check about.
+     * @return true if the lines intersect, false otherwise
+     */
+    public boolean isIntersecting(gamegeometry.Line other) {
+        //gamegeometry.Point check = intersectionWith(other);
+        return (intersectionWith(other) != null);
+    }
+
+
+    /**
+     * this method calculating intersection point of two lines.
+     *
+     * @param other the other line to check intersection with.
+     * @return the intersection point if the lines intersect, null otherwise.
+     */
+    public gamegeometry.Point intersectionWith(gamegeometry.Line other) {
+        if (this.start.equals(this.end) && other.start.equals(other.end)) { //The two lines are actually points.
+            if (this.start.equals(other.start)) {
+                return new gamegeometry.Point(this.start.getX(), this.start.getY());
+            }
+            return null;
+        }
+        if (this.start.equals(this.end)) { //Just our line is actually a dot.
+                if (other.lineContainPoint(this.start)) {
+                    return new gamegeometry.Point(this.start.getX(), this.start.getY());
+                }
+                return null;
+        }
+        if (other.start.equals(other.end)) { //The other line is actually a dot.
+                if (this.lineContainPoint(other.start)) {
+                    return new gamegeometry.Point(other.start.getX(), other.start.getY());
+                }
+                return null;
+        }
+
+            if (this.start.getX() == this.end.getX() && other.start.getX() == other.end.getX()) { //Both with infinity m
+                if (this.start.getX() == other.start.getX()) { // they are in the same x index
+                    if (this.start.getY() == other.start.getY()) {
+                        if (this.end.distance(other.end) > this.end.distance(this.start)) {
+                            //The distance of the two points is largest so the lines go in opposite directions
+                            return new gamegeometry.Point(this.start.getX(), this.start.getY());
+                        }
+                        return null;
+                    }
+                    if (this.start.getY() == other.end.getY()) {
+                        if (this.end.distance(other.start) > this.end.distance(this.start)) { //same as above
+                            return new gamegeometry.Point(this.start.getX(), this.start.getY());
+                        }
+                        return null;
+                    }
+                    if (this.end.getY() == other.start.getY()) {
+                        if (this.start.distance(other.end) > this.start.distance(this.end)) { //same as above
+                            return new gamegeometry.Point(this.start.getX(), this.end.getY());
+                        }
+                        return null;
+                    }
+                    if (this.end.getY() == other.end.getY()) {
+                        if (this.start.distance(other.start) > this.start.distance(this.end)) { //same as above
+                            return new gamegeometry.Point(this.start.getX(), this.end.getY());
+                        }
+                        return null;
+                    }
+                } else { // they aren't in the same x index
+                    return null;
+                }
+            }
+            if (this.start.getX() == this.end.getX()) { // Just this line with infinity m
+                double mLineB = (other.start.getY() - other.end.getY()) / (other.start.getX() - other.end.getX());
+                double bLineB = other.end.getY() - (mLineB * other.end.getX());
+                double intersectionYPoint = mLineB * this.start.getX() + bLineB;
+                gamegeometry.Point intersectionPoint = new gamegeometry.Point(this.start.getX(), intersectionYPoint);
+                    if (other.lineContainPoint(intersectionPoint) && this.lineContainPoint(intersectionPoint)) {
+                        return intersectionPoint;
+                    }
+                return null;
+            }
+
+            if (other.start.getX() == other.end.getX()) { // Just other line with infinity m
+                double mLineA = (this.start.getY() - this.end.getY()) / (this.start.getX() - this.end.getX());
+                double bLineA = this.start.getY() - (mLineA * this.start.getX());
+                double intersectionYPoint = mLineA * other.start.getX() + bLineA;
+                gamegeometry.Point intersectionPoint = new gamegeometry.Point(other.start.getX(), intersectionYPoint);
+                    if (other.lineContainPoint(intersectionPoint) && this.lineContainPoint(intersectionPoint)) {
+                        return intersectionPoint;
+                    }
+                return null;
+            }
+
+            //No one is with infinity m.
+            double mLineA = (this.start.getY() - this.end.getY()) / (this.start.getX() - this.end.getX());
+            double bLineA = this.start.getY() - (mLineA * this.start.getX());
+            double mLineB = (other.start.getY() - other.end.getY()) / (other.start.getX() - other.end.getX());
+            double bLineB = other.start.getY() - (mLineB * other.start.getX());
+
+            if (mLineA == mLineB) { //The lines are parallel
+                return null;
+            }
+
+            double intersectionXPoint = (bLineB - bLineA) / (mLineA - mLineB);
+            double intersectionYPoint = (mLineA * intersectionXPoint) + bLineA;
+        if ((intersectionXPoint >= this.start.getX() && intersectionXPoint <= this.end.getX())) {
+            if (intersectionXPoint >= other.start.getX() && intersectionXPoint <= other.end.getX()
+                    || intersectionXPoint <= other.start.getX() && intersectionXPoint >= other.end.getX()) {
+                return new gamegeometry.Point(intersectionXPoint, intersectionYPoint);
+            }
+        }
+        if ((intersectionXPoint <= this.start.getX() && intersectionXPoint >= this.end.getX())) {
+            if (intersectionXPoint >= other.start.getX() && intersectionXPoint <= other.end.getX()
+                    || intersectionXPoint <= other.start.getX() && intersectionXPoint >= other.end.getX()) {
+                return new gamegeometry.Point(intersectionXPoint, intersectionYPoint);
+            }
+        }
+        return null;
+    }
+
+        /**
+         * this method checks if two lines are equal.
+         * @param other - another line.
+         * @return true if the lines are equal, false otherwise.
+         */
+        public boolean equals(gamegeometry.Line other) {
+          return ((this.start.equals(other.start) && this.end.equals(other.end))
+                  || (this.start.equals(other.end) && this.end.equals(other.start)));
+        }
+
+
+    /**
+     * this method checks If this line intersects with a given rectangle, if yes -
+     * return the closest intersection point to the start of the line. if no - return null.
+     * @param rect the given rectangle.
+     * @return the closest intersection point to the start of the line,
+     * null if there isn't any.
+     */
+    public gamegeometry.Point closestIntersectionToStartOfLine(gamegeometry.Rectangle rect) {
+        List<gamegeometry.Point> intersectionPoints = rect.intersectionPoints(this);
+       if (intersectionPoints.isEmpty()) {
+           return null;
+       } else if (intersectionPoints.size() == 1) {
+           return intersectionPoints.get(0);
+       } else {
+           gamegeometry.Point closestIntersection = intersectionPoints.get(0);
+           double closestDistance = this.start.distance(intersectionPoints.get(0));
+           for (int i = 1; i < intersectionPoints.size(); i++) {
+               if (this.start.distance(intersectionPoints.get(i)) < closestDistance) {
+                   closestIntersection = intersectionPoints.get(i);
+                   closestDistance = this.start.distance(intersectionPoints.get(i));
+               }
+           }
+           return closestIntersection ;
+       }
+    }
+}
+
+
+
+
