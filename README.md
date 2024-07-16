@@ -8,6 +8,9 @@ First go to your destination folder and clone the repo:
 ```
 git clone https://github.com/landsboy/Arkanoid-Game.git
 ```
+```
+cd Arkanoid-Game/
+```
 To start playing the game, compile all Java files:
 ```
 javac -cp biuoop-1.4.jar -d bin src/*.java src/**/*.java
