@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * That's the main class of this assignment.
  */
-public class Ass6Game {
+public class Arkanoid {
     /**
      * this is the main method of the class.
      * @param args the user's input, if he put a legal arguments - we will do as he asked.
