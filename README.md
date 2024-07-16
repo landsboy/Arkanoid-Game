@@ -31,9 +31,6 @@ Using the Arkanoid game is straightforward:
 - Ensure that none of the balls fall below the paddle, as this will result in losing a life.
 - Hit all blocks on the screen to proceed to the next level. Only by clearing all blocks can you achieve victory.
 
-## schema for the Arkanoid
-![src](https://github.com/yeela8g/Arkanoid-Game/assets/118124478/2b3e91c4-83ea-4f6a-a507-5b8f1ea9fa8b)
-
 ## Implementation
 This project embodies various object-oriented programming principles and patterns, ensuring robustness and maintainability:
 - Encapsulation: Each class encapsulates its behavior and data, promoting modularity and reusability.
