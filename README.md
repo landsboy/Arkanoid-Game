@@ -1,5 +1,6 @@
 # Arkanoid-Game
 Welcome to the Arkanoid game! This Java project brings the classic Arkanoid arcade experience to life through object-oriented programming principles and design patterns. Players will embark on an exhilarating journey filled with block-breaking action and challenging levels.
+This is a final product of a 4-part-semester project in Java. This project was coded as a four-part ongoing assignment on the 2nd semester of my 1st year at BIU. This project was coded using a single thread, which is rare for games such as this. Also, it uses no Java GUI Built-In objects, instead, I used a GUI implementation which is included in this repository.
 
 ## How to Run
 First go to your destination folder and clone the repo:
